@@ -13,7 +13,7 @@ You can learn more about how Confluent is able to provide infinite storage reten
 ## This Demo -- Machine Learning Model Training
 
 Machine learning provides an ideal demonstration of Confluent Intelligent Storage. Storing training data in Kafka indefinitely has several benefits, including:
-- 
+- No need to send data to a sink system like Spark or S3
 
 This demo follows the offical TensorFlow Kafka tutorial
 - [Robust machine learning on streaming data using Kafka and Tensorflow-IO](https://www.tensorflow.org/io/tutorials/kafka)
