@@ -2,6 +2,8 @@
 
 Work in progress
 
+
+
 ## Introduction to Confluent and Intelligent Storage
 
 Confluent is the world leader for Data in Motion. Confluent Cloud is our fully managed, cloud-native service for connecting and processing all of your data, everywhere it’s needed. To build Confluent Cloud, we rearchitected Apache® Kafka to make a service that's [10x better](https://www.confluent.io/blog/making-apache-kafka-service-10x-better/?utm_campaign=tm.campaigns_cd.making-confluent-cloud-10x-more-elastic-than-apache-kafka&utm_medium=blogpost).
@@ -15,16 +17,18 @@ You can learn more about how Confluent is able to provide infinite storage reten
 Machine learning provides an ideal demonstration of Confluent Intelligent Storage. Storing training data in Kafka indefinitely has several benefits, including:
 - No need to send data to a sink system like Spark or S3, thus simplifying your architecture and saving on costs
 - Train different ML algorithms on the same data in parallel to see which model works best
-- 
+- In addition to the latest arriving events, historical data is also available for future event-driven applications that may want to take advantage
 
-This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine learning on streaming data using Kafka and Tensorflow-IO](https://www.tensorflow.org/io/tutorials/kafka). It is based on the [SUSY](https://archive.ics.uci.edu/ml/datasets/SUSY#) dataset, which is data about high energy particles gathered from the Large Hadron Collider.
+This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine learning on streaming data using Kafka and Tensorflow-IO](https://www.tensorflow.org/io/tutorials/kafka). It is based on the [SUSY](https://archive.ics.uci.edu/ml/datasets/SUSY#) dataset, which is data about high energy particles gathered from the Large Hadron Collider. The goal of the machine learning model is to distinguish between a "signal process" (value of 1) and a "background process" (value of 0).
+
+> Aside: In this context, "signal" means supersymmetric particles were produced, and "background" means no supersymmetry was observed.
 
 ## Instructions
 
 ### Setup
 1. Sign up for a Confluent Cloud Account.
 
-1. In the Confluent Cloud console, create a basic cluster and then create topics:
+1. In the Confluent Cloud console, create a basic cluster and then create topics, each with infinite retention and 1 partition:
     - `10x.storage.machine-learning.train`
     - `10x.storage.machine-learning.test`
 
