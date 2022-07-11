@@ -1,3 +1,5 @@
 confluent-kafka
+tensorflow
 tensorflow-io
 python-dotenv
+pandas
