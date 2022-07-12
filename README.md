@@ -8,13 +8,13 @@ Work in progress
 
 Confluent is the world leader for Data in Motion. Confluent Cloud is our fully managed, cloud-native service for connecting and processing all of your data, everywhere it’s needed. To build Confluent Cloud, we rearchitected Apache® Kafka to make a service that's [10x better](https://www.confluent.io/blog/making-apache-kafka-service-10x-better/?utm_campaign=tm.campaigns_cd.making-confluent-cloud-10x-more-elastic-than-apache-kafka&utm_medium=blogpost).
 
-**Confluent Intelligent Storage** (also known to as Infinite or Tiered storage) allows you to store data in your Kafka cluster indefinitely, opening up new use cases and simplifying your architecture. Instead of moving data *through* Kafka from sources to sinks, you could instead *keep* the data in Kafka indefinitely and re-read it when you need it.
+**Confluent Infinite Storage** allows you to store data in your Kafka cluster indefinitely, opening up new use cases and simplifying your architecture. Instead of moving data *through* Kafka from sources to sinks, you could instead *keep* the data in Kafka indefinitely and re-read it when you need it.
 
 You can learn more about how Confluent is able to provide infinite storage retention from the [Tiered Storage lesson](https://developer.confluent.io/learn-kafka/architecture/tiered-storage/?utm_campaign=tm.campaigns_cd.making-confluent-cloud-10x-more-elastic-than-apache-kafka&utm_medium=blogpost) in the free Kafka Internals course authored by Dave Shook and Kafka inventor Jun Rao.
 
 ## This Demo -- Machine Learning Model Training
 
-Machine learning provides an ideal demonstration of Confluent Intelligent Storage. Storing training data in Kafka indefinitely has several benefits, including:
+Machine learning provides an ideal demonstration of Confluent Infinite Storage. Storing training data in Kafka indefinitely has several benefits, including:
 - No need to send data to a sink system like Spark or S3, thus simplifying your architecture and saving on costs
 - Train different ML algorithms on the same data in parallel to see which model works best
 - Both new and historical events are available for applications to take advantage of
@@ -76,4 +76,4 @@ Online Machine Learning ([wikpedia](https://en.wikipedia.org/wiki/Online_machine
 - Associated [blog post](https://www.confluent.io/blog/streaming-machine-learning-with-tiered-storage/)
 
 Awesome quote from Kai Waehner, Confluent Field CTO:
-> [With Confluent Intelligent Storage]...you don't need another data store anymore! Just ingest the data directly from the distributed commit log of Kafka. [You can train] different models with the same data, allowing you to use different ML frameworks. This totally simplifies your architecture -- no additional data store like S3, HDFS, or Spark required!
+> [With Confluent Infinite Storage]...you don't need another data store anymore! Just ingest the data directly from the distributed commit log of Kafka. [You can train] different models with the same data, allowing you to use different ML frameworks. This totally simplifies your architecture -- no additional data store like S3, HDFS, or Spark required!

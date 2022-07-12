@@ -1,4 +1,4 @@
-confluent-kafka
+confluent-kafka[avro]
 tensorflow
 tensorflow-io
 python-dotenv
