@@ -1,0 +1,1 @@
+"""Consume from Kafka topic and train ML model"""

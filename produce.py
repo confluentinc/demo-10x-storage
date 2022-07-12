@@ -7,7 +7,7 @@ from data import SUSY_COLUMNS
 import csv
 import random
 
-with open('./data/sample.csv') as data:
+with open('./sample.csv') as data:
     reader = csv.DictReader(data,fieldnames=SUSY_COLUMNS)
     for row in reader:
         row_with_float_values = {field:float(value) for field, value in row.items()}

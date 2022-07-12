@@ -39,6 +39,7 @@ SUSY_AVRO_SCHEMA = """
 {
     "namespace": "10x_storage_machine_learning",
     "name": "SUSYRecord",
+    "doc" : "The first column is the signal label (1 for signal, 0 for background), followed by the 18 features (8 low-level features then 10 high-level features). The first 8 features are kinematic properties measured by the particle detectors in the accelerator. The last 10 features are functions of the first 8 features. These are high-level features derived by physicists to help discriminate between the two classes. See https://archive.ics.uci.edu/ml/datasets/SUSY for more information.",
     "type": "record",
     "fields": [
         {"name": "signal", "type": "float"},
