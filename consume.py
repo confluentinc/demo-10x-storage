@@ -15,7 +15,8 @@ from data import SUSY_AVRO_SCHEMA, SUSY_COLUMNS
 def deserialize_kafka_record(raw_record_value, raw_record_key):
     """Deserialize avro value. Keys are expected to be null."""
     record_value = tfio.experimental.serialization.decode_avro(raw_record_value, schema=SUSY_AVRO_SCHEMA)
-    return record_value, raw_record_key
+    record_key = record_value.pop('signal')
+    return [v for k,v in record_value.items()], record_key
 
 schema_registry_client = SchemaRegistryClient(SCHEMA_REGISTRY_CONFIG)
 SUSY_avro_deserializer = AvroDeserializer(
@@ -51,7 +52,7 @@ EPOCHS=10
 
 # design/build the model
 model = tf.keras.Sequential([
-  tf.keras.layers.Input(shape=(len(SUSY_COLUMNS),)),
+  tf.keras.layers.Input(shape=(18,)),
   tf.keras.layers.Dense(128, activation='relu'),
   tf.keras.layers.Dropout(0.2),
   tf.keras.layers.Dense(256, activation='relu'),
@@ -68,4 +69,4 @@ print(model.summary())
 model.compile(optimizer=OPTIMIZER, loss=LOSS, metrics=METRICS)
 
 # fit the model
-model.fit(train_ds, epochs=EPOCHS)
+model.fit(x=train_ds, epochs=EPOCHS)
