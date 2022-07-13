@@ -15,7 +15,7 @@ You can learn more about how Confluent is able to provide infinite storage reten
 Machine learning provides an ideal demonstration of Confluent Infinite Storage.
 Kafka has long been instrumental for *deploying* models to make real-time predictions, but when it comes to *training* models, Kafka is often only used as a "dumb pipe" to get data into a long term storage system like S3, Google Cloud Storage, Azure Blob Storage, HDFS etc. That's because Kafka generally only retains data for 7 days -- it's not built as a long term storage service.
 
-Confluent Infinite Storage changes that. Now, your Kafka cluster is the data lake. Storing training data in a Kafka topic indefinitely has several benefits, including:
+Confluent Infinite Storage changes that. Your Kafka cluster can be the data lake. Storing training data in a Kafka topic indefinitely has several benefits, including:
 - No need to send data to a separate data lake like S3, GCS, HDFS, etc., thus simplifying your architecture
 - One data pipeline for 
   - data preprocessing
