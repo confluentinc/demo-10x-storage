@@ -90,7 +90,7 @@ This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine
 
 ## Note about Online Machine Learning
 
-Online Machine Learning ([wikpedia](https://en.wikipedia.org/wiki/Online_machine_learning)) refers to a method of model training where the model incrementally improves with new data, as opposed to requiring the entire dataset be processed in batch. Online learning is a perfect fit for Apache Kafka because a model can subscribe to a topic and continuously train as more data arrives, periodically checkpointing its current state to an external repository to be used to make predications. The [`tfio.experimental.streaming.KafkaBatchIODataset`](https://www.tensorflow.org/io/api_docs/python/tfio/experimental/streaming/KafkaBatchIODataset) class is an example of an API that can employ Online Machine Learning
+Online Machine Learning ([wikpedia](https://en.wikipedia.org/wiki/Online_machine_learning)) refers to a method of model training where the model incrementally improves with new data, as opposed to requiring the entire dataset be processed in batch. Online learning is a perfect fit for Apache Kafka because a model can subscribe to a topic and continuously train as more data arrives, periodically checkpointing its current state to an external repository to be used to make predications. The [`tfio.experimental.streaming.KafkaBatchIODataset`](https://www.tensorflow.org/io/api_docs/python/tfio/experimental/streaming/KafkaBatchIODataset) class is an example of an API that can employ Online Machine Learning.
 
 The downside to Online Machine Learning is it is only available to a small subset of algorithms, which may not be ideal or even applicable to certain use cases.
 
@@ -106,6 +106,8 @@ Full code example for creating Kafka client applications in Python:
 - https://developer.confluent.io/tutorials/model-retraining/confluent.html
 - Associated [blog post](https://www.confluent.io/blog/how-baader-built-a-predictive-analytics-machine-learning-system-with-kafka-and-rstudio/)
 ### Streaming Machine Learning at Scale from 100000 IoT Devices with HiveMQ, Apache Kafka and TensorFLow
+
+This is an in-depth, end-to-end demo on Google Cloud Platform that shows machine learning model training and real-time predictions for high volume Internet of Things (IoT) data (specifically car sensors).
+
 - https://github.com/kaiwaehner/hivemq-mqtt-tensorflow-kafka-realtime-iot-machine-learning-training-inference
-- In-depth, end-to-end demo on Google Cloud Platform that shows machine learning model training and real-time inference for high volume Internet of Things (IoT) data (specifically car sensors)
 - Associated [blog post](https://www.confluent.io/blog/streaming-machine-learning-with-tiered-storage/)

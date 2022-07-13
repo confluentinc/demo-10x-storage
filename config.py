@@ -6,6 +6,10 @@ from dotenv import load_dotenv
 # Load sensitive credentials from .env file into environment variables
 load_dotenv()
 
+# hardcode training and validation topic names
+TOPIC_TRAIN = "10x.storage.machine-learning.train"
+TOPIC_TEST = "10x.storage.machine-learning.test"
+
 # Define Kafka Configurations
 KAFKA_CONFIG: 'dict[str,str]' = {
     # Kafka cluster
@@ -13,15 +17,12 @@ KAFKA_CONFIG: 'dict[str,str]' = {
     "sasl.username": os.environ["CCLOUD_CLUSTER_API_KEY"],
     "sasl.password": os.environ["CCLOUD_CLUSTER_API_SECRET"],
     "security.protocol": "SASL_SSL",
-    "sasl.mechanisms": "PLAIN",
-    # Schema Registry
-    "schema.registry.url": os.environ["CCLOUD_SCHEMA_REGISTRY_ENDPOINT"],
-    "basic.auth.user.info": f"{os.environ['CCLOUD_SCHEMA_REGISTRY_API_KEY']}:{os.environ['CCLOUD_SCHEMA_REGISTRY_API_SECRET']}"
-}
+    "sasl.mechanisms": "PLAIN"
+    }
 
 SCHEMA_REGISTRY_CONFIG: 'dict[str,str]' = {
-    "url": KAFKA_CONFIG["schema.registry.url"],
-    "basic.auth.user.info": KAFKA_CONFIG["basic.auth.user.info"]
+    "url": os.environ["CCLOUD_SCHEMA_REGISTRY_ENDPOINT"],
+    "basic.auth.user.info": f"{os.environ['CCLOUD_SCHEMA_REGISTRY_API_KEY']}:{os.environ['CCLOUD_SCHEMA_REGISTRY_API_SECRET']}"
 }
 
 

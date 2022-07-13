@@ -1,5 +1,6 @@
 '''Define data model and avro schema'''
 
+
 # Define the data model in the supersymmetry dataset.
 # The first column is the signal label (1 for signal, 0 for background),
 # followed by the 18 features (8 low-level features then 10 high-level features).
@@ -29,7 +30,7 @@ SUSY_COLUMNS: 'list[str]' = [
            'S_R',
            'M_Delta_R',
            'dPhi_r_b',
-           'cos(theta_r1)'
+           'cos_theta_r1'
            ]
 
 # Schema used to serialize and deserialize AVRO records.
