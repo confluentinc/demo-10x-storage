@@ -7,20 +7,20 @@ from confluent_kafka import DeserializingConsumer
 from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.avro import AvroDeserializer
 
-from config import TOPIC_TRAIN, KAFKA_CONFIG, SCHEMA_REGISTRY_CONFIG
+from config import TOPIC_TEST, TOPIC_TRAIN, KAFKA_CONFIG, SCHEMA_REGISTRY_CONFIG
 from data import SUSY_AVRO_SCHEMA, SUSY_COLUMNS
 
 
 def deserialize_kafka_record(raw_record_value, raw_record_key):
     """
     Deserialize avro value and transform into a structure tf.keras model expects.
-    The model expects a tuple (x,y) where x is a list representing a SUSY data row *without* the "signal" column,
-    and y represents the "signal" column.
+    The model expects a tuple (x,y) where x is a list representing a SUSY data row *without* the "signal" column (features),
+    and y represents the "signal" column (label).
     """
     record_value = tfio.experimental.serialization.decode_avro(raw_record_value, schema=SUSY_AVRO_SCHEMA)
-    tf.print(record_value)
+    # tf.print(record_value)
     record_key = record_value.pop('signal')
-    tf.print([v for k,v in record_value.items()])
+    # tf.print([v for k,v in record_value.items()])
     return [v for k,v in record_value.items()], record_key
 
 schema_registry_client = SchemaRegistryClient(SCHEMA_REGISTRY_CONFIG)
@@ -33,8 +33,8 @@ consumer_config = KAFKA_CONFIG.copy()
 # consumer_config['value.deserializer'] = SUSY_avro_deserializer
 consumer_config['auto.offset.reset'] = "earliest"
 
-BATCH_SIZE=64
-SHUFFLE_BUFFER_SIZE=64
+BATCH_SIZE=1000
+SHUFFLE_BUFFER_SIZE=1000
 
 train_ds = tfio.experimental.streaming.KafkaGroupIODataset(
     topics=[TOPIC_TRAIN],
@@ -80,3 +80,21 @@ model.compile(optimizer=OPTIMIZER, loss=LOSS, metrics=METRICS)
 
 # fit the model
 model.fit(train_ds, epochs=EPOCHS)
+
+
+# Infer on the test data
+test_ds = tfio.experimental.streaming.KafkaGroupIODataset(
+    topics=[TOPIC_TEST],
+    group_id="testing_group",
+    servers= consumer_config['bootstrap.servers'],
+    configuration=[f"{k}={v}" for k,v in consumer_config.items()]
+)
+# Remove schema ID (4 bytes) and magic byte from record value.
+# See https://blog.devgenius.io/how-the-kafka-avro-serialization-works-581abf7f3959
+test_ds = test_ds.map(lambda v, k: (tf.strings.substr(v, 5, -1), k))
+# Deserialize avro value
+test_ds = test_ds.map(deserialize_kafka_record)
+test_ds = test_ds.batch(BATCH_SIZE)
+
+res = model.evaluate(test_ds)
+print("test loss, test acc:", res)
