@@ -98,3 +98,5 @@ test_ds = test_ds.batch(BATCH_SIZE)
 
 res = model.evaluate(test_ds)
 print("test loss, test acc:", res)
+
+model.save('./my_cool_model.h5')
