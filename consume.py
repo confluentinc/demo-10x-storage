@@ -1,6 +1,5 @@
 """Consume from Kafka topic and train ML model"""
 
-import pandas as pd
 import tensorflow as tf
 import tensorflow_io as tfio
 
@@ -13,9 +12,15 @@ from data import SUSY_AVRO_SCHEMA, SUSY_COLUMNS
 
 
 def deserialize_kafka_record(raw_record_value, raw_record_key):
-    """Deserialize avro value. Keys are expected to be null."""
+    """
+    Deserialize avro value and transform into a structure tf.keras model expects.
+    The model expects a tuple (x,y) where x is a list representing a SUSY data row *without* the "signal" column,
+    and y represents the "signal" column.
+    """
     record_value = tfio.experimental.serialization.decode_avro(raw_record_value, schema=SUSY_AVRO_SCHEMA)
+    tf.print(record_value)
     record_key = record_value.pop('signal')
+    tf.print([v for k,v in record_value.items()])
     return [v for k,v in record_value.items()], record_key
 
 schema_registry_client = SchemaRegistryClient(SCHEMA_REGISTRY_CONFIG)
@@ -37,8 +42,12 @@ train_ds = tfio.experimental.streaming.KafkaGroupIODataset(
     servers= consumer_config['bootstrap.servers'],
     configuration=[f"{k}={v}" for k,v in consumer_config.items()]
 )
-train_ds = train_ds.shuffle(buffer_size=SHUFFLE_BUFFER_SIZE)
+# Remove schema ID (4 bytes) and magic byte from record value.
+# See https://blog.devgenius.io/how-the-kafka-avro-serialization-works-581abf7f3959
+train_ds = train_ds.map(lambda v, k: (tf.strings.substr(v, 5, -1), k))
+# Deserialize avro value
 train_ds = train_ds.map(deserialize_kafka_record)
+train_ds = train_ds.shuffle(buffer_size=SHUFFLE_BUFFER_SIZE)
 train_ds = train_ds.batch(BATCH_SIZE)
 
 
@@ -52,14 +61,15 @@ EPOCHS=10
 
 # design/build the model
 model = tf.keras.Sequential([
-  tf.keras.layers.Input(shape=(18,)),
-  tf.keras.layers.Dense(128, activation='relu'),
-  tf.keras.layers.Dropout(0.2),
-  tf.keras.layers.Dense(256, activation='relu'),
-  tf.keras.layers.Dropout(0.4),
-  tf.keras.layers.Dense(128, activation='relu'),
-  tf.keras.layers.Dropout(0.4),
-  tf.keras.layers.Dense(1, activation='sigmoid')
+    # inputs are all columns except "signal". We are trying to predict "signal"
+    tf.keras.layers.Input(shape=(len(SUSY_COLUMNS)-1,)),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(256, activation='relu'),
+    tf.keras.layers.Dropout(0.4),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dropout(0.4),
+    tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 
 print(model.summary())
@@ -69,4 +79,4 @@ print(model.summary())
 model.compile(optimizer=OPTIMIZER, loss=LOSS, metrics=METRICS)
 
 # fit the model
-model.fit(x=train_ds, epochs=EPOCHS)
+model.fit(train_ds, epochs=EPOCHS)
