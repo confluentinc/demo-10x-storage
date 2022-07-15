@@ -15,7 +15,7 @@ You can learn more about how Confluent is able to provide infinite storage reten
 Machine learning provides an ideal demonstration of Confluent Infinite Storage.
 Kafka has long been instrumental for *deploying* models to make real-time predictions, but when it comes to *training* models, Kafka is often only used as a "dumb pipe" to get data into a long term storage system like S3, Google Cloud Storage, Azure Blob Storage, HDFS etc. That's because Kafka generally only retains data for 7 days -- it's not built as a long term storage service.
 
-Confluent Infinite Storage changes that. Your Kafka cluster can be the data lake. Storing training data in a Kafka topic indefinitely has several benefits, including:
+Confluent Infinite Storage changes that. Your Confluent Cloud cluster can be the data lake. Storing training data in a Kafka topic indefinitely has several benefits, including:
 - No need to send data to a separate data lake like S3, GCS, HDFS, etc., thus simplifying your architecture
 - One data pipeline for 
   - data preprocessing
@@ -85,8 +85,72 @@ This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine
     curl -sSOL https://archive.ics.uci.edu/ml/machine-learning-databases/00279/SUSY.csv.gz
     gunzip SUSY.csv.gz
     ```
+### Produce Data to Confluent Cloud
+
+1. Inspect the code of `produce.py` to see how the `confluent_kafka` producer client works.
+
+    > Note: The [`confluent_kafka` library](https://docs.confluent.io/platform/current/clients/confluent-kafka-python/html/index.html) is based on the C-based [librdkafka](https://github.com/edenhill/librdkafka) library.
+
+    > Note: The data is produced with an Avro schema to allow us to take advantage of advanced data quality features of Confluent Schema Registry. Schema Registry also supports JSON schema and Protobufs.
+
+1. Run the producer to produce the particle physics data to your Confluent Cloud cluster.
+    ```
+    python produce.py
+    ```
+
+1. Check out the data coming into your topics in the Confluent Cloud Console.
+
+### Consume the Data to Train and Test an ML Model with TensorFlow
+
+1. Inspect the code of `consume.py` to see how TensorFlow I/O's [KafkaGroupIODataset](https://www.tensorflow.org/io/api_docs/python/tfio/experimental/streaming/KafkaGroupIODataset) consumes data from Kafka to train and test a neural network.
+
+1. Run the consumer to train and test the model.
+
+    ```
+    python consume.py
+    ```
+
+### (Optional) Process the Data Stream in Real  with ksqlDB
+
+ksqlDB is a [streaming database](https://ksqldb.io/) that allows you to read, transform, and enrich streams and tables in real time.
+
+1. Create a ksqlDB cluster in your Confluent Cloud cluster with 1 CKU.
+
+1. Create a stream from the training data by running the following query in the query editor:
+
+    ```
+    CREATE STREAM training WITH (
+        kafka_topic='10x.storage.machine-learning.train',
+        value_format='avro'
+        );
+    ```
+1. Change `auto.offset.reset` to `earliest` and run the following query to read and inspect the data from the training topic.
+
+    ```
+    SELECT * FROM TRAINING EMIT CHANGES;
+    ```
+
+    > Note: Since we are using Schema Registry, ksqlDB has a strongly typed view of the data, which is essential for maintaining high standards of data quality in your data pipeline.
 
 
+### Clean Up
+
+Delete your ksqlDB and Confluent clusters.
+
+## Summary
+
+In this demo, you produced particle physics data to Kafka topics in Confluent Cloud and consumed data from those topics to train and test a neural network to predict whether a particle collision will produce supersymmetry.
+
+The important takeaways:
+
+- Confluent is your data lake
+- You could train different models on the same historical data in parallel to compare their performance
+- One pipeline used to
+  - join and transform data during preprocessing
+  - train models
+  - monitor model performance both historically and in real-time
+  - Perform predictions and inferences in real-time
+- Real time and historical data is now available in topics for other microservices to consume
 
 ## Note about Online Machine Learning
 
