@@ -11,8 +11,8 @@ from data import SUSY_COLUMNS, SUSY_AVRO_SCHEMA
 
 
 
-def log_produce_errors(err, msg):
-    """Producer callback to log records that failed to send"""
+def log_kafka_errors(err, msg):
+    """Optional producer callback to log records that failed to send"""
     if err:
         print(f"Failed to producer with error {err}", file=sys.stdout)
 
@@ -35,12 +35,12 @@ def produce_SUSY_data(
                         producer.produce(
                             topic=TOPIC_TRAIN,
                             value=row_with_float_values,
-                            on_delivery=log_produce_errors)
+                            on_delivery=log_kafka_errors)
                     else:
                         producer.produce(
                             topic=TOPIC_TEST,
                             value=row_with_float_values,
-                            on_delivery=log_produce_errors)
+                            on_delivery=log_kafka_errors)
                     producer.poll(0)
                     records_produced += 1
                     break
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     producer_config = KAFKA_CONFIG.copy()
     producer_config['value.serializer'] = SUSY_avro_serializer
 
-    # Configure other producer properties to tune performance. 
+    # Configure other producer properties to tune performance.
     # See https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
     producer_config['queue.buffering.max.messages'] = 1000000
     producer_config['linger.ms'] = 500

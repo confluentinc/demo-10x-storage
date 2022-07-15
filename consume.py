@@ -3,7 +3,6 @@
 import tensorflow as tf
 import tensorflow_io as tfio
 
-from confluent_kafka import DeserializingConsumer
 from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.avro import AvroDeserializer
 
@@ -23,14 +22,16 @@ def deserialize_kafka_record(raw_record_value, raw_record_key):
     # tf.print([v for k,v in record_value.items()])
     return [v for k,v in record_value.items()], record_key
 
-schema_registry_client = SchemaRegistryClient(SCHEMA_REGISTRY_CONFIG)
-SUSY_avro_deserializer = AvroDeserializer(
-    schema_registry_client=schema_registry_client,
-    schema_str=SUSY_AVRO_SCHEMA
-)
-
 consumer_config = KAFKA_CONFIG.copy()
+
+# Tensorflow I/O doesn't seem to be able to use the confluent_kafka.DeserializingConsumer
+# schema_registry_client = SchemaRegistryClient(SCHEMA_REGISTRY_CONFIG)
+# SUSY_avro_deserializer = AvroDeserializer(
+#     schema_registry_client=schema_registry_client,
+#     schema_str=SUSY_AVRO_SCHEMA
+# )
 # consumer_config['value.deserializer'] = SUSY_avro_deserializer
+
 consumer_config['auto.offset.reset'] = "earliest"
 
 BATCH_SIZE=1000
@@ -99,4 +100,4 @@ test_ds = test_ds.batch(BATCH_SIZE)
 res = model.evaluate(test_ds)
 print("test loss, test acc:", res)
 
-model.save('./my_cool_model.h5')
+model.save('./particle_physics_SUSY_model.h5')
