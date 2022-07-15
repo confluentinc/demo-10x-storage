@@ -108,7 +108,7 @@ This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine
     python consume.py
     ```
 
-### (Optional) Process the Data Stream in Real  with ksqlDB
+### (Optional) Process the Data Stream in Real-Time with ksqlDB
 
 ksqlDB is a [streaming database](https://ksqldb.io/) that allows you to read, transform, and enrich streams and tables in real time.
 
