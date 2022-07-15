@@ -96,7 +96,7 @@ This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine
     python produce.py
     ```
 
-1. Check out the data coming into your topics in the Confluent Cloud Console.
+1. Check out the data coming into your topics in the Confluent Cloud Console (optionally in [ksqlDB](#optional-process-the-data-stream-in-real--with-ksqldb)).
 
 ### Consume the Data to Train and Test an ML Model with TensorFlow
 

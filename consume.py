@@ -3,10 +3,7 @@
 import tensorflow as tf
 import tensorflow_io as tfio
 
-from confluent_kafka.schema_registry import SchemaRegistryClient
-from confluent_kafka.schema_registry.avro import AvroDeserializer
-
-from config import TOPIC_TEST, TOPIC_TRAIN, KAFKA_CONFIG, SCHEMA_REGISTRY_CONFIG
+from config import TOPIC_TEST, TOPIC_TRAIN, KAFKA_CONFIG
 from data import SUSY_AVRO_SCHEMA, SUSY_COLUMNS
 
 
@@ -58,7 +55,7 @@ train_ds = train_ds.batch(BATCH_SIZE)
 OPTIMIZER="adam"
 LOSS=tf.keras.losses.BinaryCrossentropy(from_logits=True)
 METRICS=['accuracy']
-EPOCHS=10
+EPOCHS=2
 
 # design/build the model
 model = tf.keras.Sequential([
@@ -72,9 +69,6 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dropout(0.4),
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
-
-print(model.summary())
-
 
 # compile the model
 model.compile(optimizer=OPTIMIZER, loss=LOSS, metrics=METRICS)
@@ -98,6 +92,7 @@ test_ds = test_ds.map(deserialize_kafka_record)
 test_ds = test_ds.batch(BATCH_SIZE)
 
 res = model.evaluate(test_ds)
+print(model.summary())
 print("test loss, test acc:", res)
 
 model.save('./particle_physics_SUSY_model.h5')
