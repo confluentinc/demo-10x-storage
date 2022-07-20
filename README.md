@@ -2,7 +2,7 @@
 
 ## Sign Up for the Webinar!
 
-Sign up for the [10x storage webinar](https://www.confluent.io/en-gb/resources/online-talk/10x-apache-kafka-storage/) to see Jeff and Chuck discuss this demo and the possibilities revealed by Confluent Infinite Storage in-depth. We'll break down these tantalizing diagrams:
+Sign up for the [10x storage webinar](https://www.confluent.io/en-gb/resources/online-talk/10x-apache-kafka-storage/) to see Jeff and Chuck have an in-depth discussion about this demo and the possibilities unlocked by Confluent Infinite Storage. Watch along as they break down these tantalizing diagrams:
 
 | before infinite storage | after infinite storage |
 | ----------------------- | ---------------------- |
