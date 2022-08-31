@@ -2,5 +2,6 @@
 .env*
 .venv
 __pycache__
-scratch.py
+scratch*
 *.h5
+credentials/*

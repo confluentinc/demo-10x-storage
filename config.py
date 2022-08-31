@@ -1,10 +1,12 @@
 """Kafka and Schema Registry client configuration"""
 import os
-from dotenv import load_dotenv
+import sys
 
-
-# Load sensitive credentials from .env file into environment variables
-load_dotenv()
+try:
+    os.environ["CCLOUD_CLUSTER_API_KEY"]
+except KeyError:
+    print("please source the env.sh script to set up your environment")
+    sys.exit(1)
 
 # hardcode training and validation topic names
 TOPIC_TRAIN = "10x.storage.machine-learning.train"

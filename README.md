@@ -40,25 +40,11 @@ This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine
 ## Instructions
 
 ### Setup Confluent Cloud
-1. Sign up for a Confluent Cloud Account.
+1. Sign up for a Confluent Cloud account at https://confluent.cloud
 
-1. In the Confluent Cloud console, create a basic cluster called "10x Demo" in the cloud region of your choice.
-
-1. Create a topic for the training data. Go to Topics -> Add topic -> advanced settings
-    - Set topic name to `10x.storage.machine-learning.train`
-    - Set retention time to `infinite`
-    - Select "Save & create"
-
-1. Create a topic for the validation data. Go to Topics -> Add topic -> advanced settings
-    - Set topic name to `10x.storage.machine-learning.test`
-    - Set retention time to `infinite`    
-    - Select "Save & create"
-
-1. Create an API key for your cluster. Go to Data integration -> API keys -> Add key and choose global access. Keep this API key secure with a password manager.
+1. In the Confluent Cloud console, create a basic cluster called "demo-10x-storage" in the cloud region of your choice.
 
 1. In your Confluent Cloud environment, select **Schema Registry** and enable Confluent Schema Registry in the same region as your cluster.
-
-1. Create an API key for your Schema Registry. Go to the Schema Registry tab in your Confluent Cloud environment, select "API credentials" and create a new API key. Keep this API key secure with a password manager.
 
 ### Setup Your Workstation
 
@@ -68,17 +54,17 @@ This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine
     cd demo-10x-storage
     ```
 
-1. In this project folder a file called `.env` with these variables defined to match your environment.
+1. Set your Confluent email and password as environment variables.
+    ```bash
+    CONFLUENT_CLOUD_EMAIL=<my ccloud email>
+    CONFLUENT_CLOUD_PASSWORD=<my ccloud password>
     ```
-    CCLOUD_BOOTSTRAP_ENDPOINT=
-    CCLOUD_CLUSTER_API_KEY=
-    CCLOUD_CLUSTER_API_SECRET=
-    CCLOUD_SCHEMA_REGISTRY_ENDPOINT=
-    CCLOUD_SCHEMA_REGISTRY_API_KEY=
-    CCLOUD_SCHEMA_REGISTRY_API_SECRET=
+    Optionally you can set the `CCLOUD_ENV_NAME` (default is "default") and `CCLOUD_CLUSTER_NAME` (default is "demo-10x-storage") variables to match your environment.
+
+1. Source the `env.sh` script to automatically set environment variables and create api keys necessary for this demo.
+    ```bash
+    . ./env.sh
     ```
-    You can get the Schema Registry endpoint by logging in to the Confluent Cloud Console and navigating Environments -> {your environment} -> Schema Registry and then scroll down to "API Endpoint".
-    You can get the bootstrap endpoint from Environments -> {your environment} -> {your cluster} -> Cluster overview -> Cluster settings in the Confluent Cloud Console.
 
 1. Create a python virtual environment called `.venv` and install dependencies.
     ```
@@ -144,6 +130,12 @@ ksqlDB is a [streaming database](https://ksqldb.io/) that allows you to read, tr
 ### Clean Up
 
 Delete your ksqlDB and Confluent clusters.
+
+If you just want to delete the API keys you made in this demo, run
+
+```
+./delete-keys.sh
+```
 
 ## Summary
 
