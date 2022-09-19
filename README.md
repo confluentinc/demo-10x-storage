@@ -8,8 +8,6 @@ Watch the [10x storage webinar](https://www.confluent.io/en-gb/resources/online-
 | ----------------------- | ---------------------- |
 | ![before](./assets/before-inf-storage.svg) | ![after](./assets/after-inf-storage.svg) |
 
-See you there!
-
 ## Introduction to Confluent and Intelligent Storage
 
 Confluent is the world leader for Data in Motion. Confluent Cloud is our fully managed, cloud-native service for connecting and processing all of your data, everywhere it’s needed. To build Confluent Cloud, we rearchitected Apache Kafka® to make a service that's [10x better](https://www.confluent.io/blog/making-apache-kafka-service-10x-better/?utm_campaign=tm.campaigns_cd.making-confluent-cloud-10x-more-elastic-than-apache-kafka&utm_medium=blogpost).
