@@ -1,8 +1,8 @@
 # Confluent 10x Storage Demo
 
-## Sign Up for the Webinar!
+## Watch the Webinar!
 
-Sign up for the [10x storage webinar](https://www.confluent.io/en-gb/resources/online-talk/10x-apache-kafka-storage/) to see Jeff and Chuck have an in-depth discussion about this demo and the possibilities unlocked by Confluent Infinite Storage. Watch along as they break down these tantalizing diagrams:
+Watch the [10x storage webinar](https://www.confluent.io/en-gb/resources/online-talk/10x-apache-kafka-storage/) to see Jeff and Chuck have an in-depth discussion about this demo and the possibilities unlocked by Confluent Infinite Storage. Watch along as they break down these tantalizing diagrams:
 
 | before infinite storage | after infinite storage |
 | ----------------------- | ---------------------- |
@@ -48,10 +48,19 @@ This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine
 
 ### Setup Your Workstation
 
-1. Clone this repository and change into the directory.
+1. The easiest way to run this demo is to launch a preconfigured workspace in Gitpod by clicking this link:
+    - https://gitpod.io/#https://github.com/confluentinc/demo-10x-storage.git
+
+    If you are **not** using Gitpod, then clone this repository, set up a python virtual environment, and download the SUSY dataset:
     ```
     git clone https://github.com/confluentinc/demo-10x-storage.git
     cd demo-10x-storage
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install --upgrade pip
+    pip install -r requirements.txt
+    curl -sSOL https://archive.ics.uci.edu/ml/machine-learning-databases/00279/SUSY.csv.gz
+    gunzip SUSY.csv.gz
     ```
 
 1. Set your Confluent email and password as environment variables.
@@ -59,25 +68,11 @@ This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine
     CONFLUENT_CLOUD_EMAIL=<my ccloud email>
     CONFLUENT_CLOUD_PASSWORD=<my ccloud password>
     ```
-    Optionally you can set the `CCLOUD_ENV_NAME` (default is "default") and `CCLOUD_CLUSTER_NAME` (default is "demo-10x-storage") variables to match your environment.
+    Optionally you can also set the `CCLOUD_ENV_NAME` (default is "default") and `CCLOUD_CLUSTER_NAME` (default is "demo-10x-storage") variables to match your environment.
 
 1. Source the `env.sh` script to automatically set environment variables and create api keys necessary for this demo.
     ```bash
     . ./env.sh
-    ```
-
-1. Create a python virtual environment called `.venv` and install dependencies.
-    ```
-    python3 -m venv .venv
-    source .venv/bin/activate
-    pip install --upgrade pip
-    pip install -r requirements.txt
-    ```
-
-1. Download and uncompress the SUSY dataset (~2GB uncompressed).
-    ```
-    curl -sSOL https://archive.ics.uci.edu/ml/machine-learning-databases/00279/SUSY.csv.gz
-    gunzip SUSY.csv.gz
     ```
 ### Produce Data to Confluent Cloud
 
