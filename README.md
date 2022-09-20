@@ -49,7 +49,7 @@ This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine
 1. The easiest way to run this demo is to launch a preconfigured workspace in Gitpod by clicking this link:
     - https://gitpod.io/#https://github.com/confluentinc/demo-10x-storage.git
 
-    If you are **not** using Gitpod, then clone this repository, set up a python virtual environment, and download the SUSY dataset:
+    If you are **not** using Gitpod, then [install the confluent CLI](https://docs.confluent.io/confluent-cli/current/install.html) and run the following commands to clone this repository, set up a python virtual environment, and download the SUSY dataset:
     ```
     git clone https://github.com/confluentinc/demo-10x-storage.git
     cd demo-10x-storage
