@@ -9,8 +9,10 @@ tasks:
     init: |
       python -m venv /workspace/.venv && \
       source /workspace/.venv/bin/activate && \
+      pip install --upgrade pip && \
       pip install -r requirements.txt && \
-      curl -sL --http1.1 https://cnfl.io/cli | sh -s -- -b /workspace/bin
+      curl -sL --http1.1 https://cnfl.io/cli | sh -s -- -b /workspace/bin && \
+      /workspace/bin/confluent version
     command: |
       ln -s /workspace/bin/confluent /home/gitpod/.local/bin/confluent
-
+      source /workspace/.venv/bin/activate
