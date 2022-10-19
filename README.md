@@ -44,6 +44,8 @@ This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine
 
 1. In your Confluent Cloud environment, select **Schema Registry** and enable Confluent Schema Registry in the same region as your cluster.
 
+1. (Optional) Create a ksqlDB cluster in your Confluent Cloud cluster with 1 CKU.
+
 ### Setup Your Workstation
 
 1. The easiest way to run this demo is to launch a preconfigured workspace in Gitpod by clicking this link:
@@ -101,7 +103,7 @@ This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine
 
 ksqlDB is a [streaming database](https://ksqldb.io/) that allows you to read, transform, and enrich streams and tables in real time.
 
-1. Create a ksqlDB cluster in your Confluent Cloud cluster with 1 CKU.
+1. Create a ksqlDB cluster in your Confluent Cloud cluster with 1 CKU if you haven't already.
 
 1. Create a stream from the training data by running the following query in the query editor:
 
