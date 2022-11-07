@@ -33,6 +33,8 @@ Confluent Infinite Storage changes that. Your Confluent Cloud cluster can be the
 
 This demo is derived from the offical TensorFlow Kafka tutorial: [Robust machine learning on streaming data using Kafka and Tensorflow-IO](https://www.tensorflow.org/io/tutorials/kafka). It is based on the [SUSY](https://archive.ics.uci.edu/ml/datasets/SUSY#) dataset, which is data about high energy particles gathered from the Large Hadron Collider. The goal of the machine learning model is to distinguish between a "signal process" (value of 1) and a "background process" (value of 0).
 
+However, in that tutorial, a reduced subset of the training data is stored in Apache Kafka, which limits the accuracy of the model. Infinite Storage can remove this restriction to allow an entire data set to be economically utilized from Kafka. It also simplifies applications wanting to work with both real-time and historical data combined by using only Kafka. 
+
 > Aside: In this context, "signal" means supersymmetric particles were produced, and "background" means no supersymmetry was observed.
 
 ## Instructions
