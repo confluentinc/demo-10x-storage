@@ -45,8 +45,8 @@ confluent api-key create \
     --resource $CCLOUD_CLUSTER_ID \
     --description "demo-10x-storage" \
     -o json > credentials/.env.CCLOUD_CLUSTER_API.json
-export CCLOUD_CLUSTER_API_KEY=$(cat credentials/.env.CCLOUD_CLUSTER_API.json | jq -r .key)
-export CCLOUD_CLUSTER_API_SECRET=$(cat credentials/.env.CCLOUD_CLUSTER_API.json | jq -r .secret)
+export CCLOUD_CLUSTER_API_KEY=$(cat credentials/.env.CCLOUD_CLUSTER_API.json | jq -r .api_key)
+export CCLOUD_CLUSTER_API_SECRET=$(cat credentials/.env.CCLOUD_CLUSTER_API.json | jq -r .api_secret)
 
 # Get schema registry info
 export CCLOUD_SCHEMA_REGISTRY_ID=$(confluent sr cluster describe -o json | jq -r .cluster_id)
@@ -57,5 +57,5 @@ confluent api-key create \
     --resource $CCLOUD_SCHEMA_REGISTRY_ID \
     --description "demo-10x-storage" \
     -o json > credentials/.env.CCLOUD_SCHEMA_REGISTRY_API.json
-export CCLOUD_SCHEMA_REGISTRY_API_KEY=$(cat credentials/.env.CCLOUD_SCHEMA_REGISTRY_API.json | jq -r .key)
-export CCLOUD_SCHEMA_REGISTRY_API_SECRET=$(cat credentials/.env.CCLOUD_SCHEMA_REGISTRY_API.json | jq -r .secret)
+export CCLOUD_SCHEMA_REGISTRY_API_KEY=$(cat credentials/.env.CCLOUD_SCHEMA_REGISTRY_API.json | jq -r .api_key)
+export CCLOUD_SCHEMA_REGISTRY_API_SECRET=$(cat credentials/.env.CCLOUD_SCHEMA_REGISTRY_API.json | jq -r .api_secret)
